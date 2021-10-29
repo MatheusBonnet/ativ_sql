@@ -1,0 +1,69 @@
+--listar todos os campos de todas tabelas
+
+select * from solicitacao soli 
+ inner join cotacao c 
+ on soli.id = c.fk_solicitacao_id
+ inner join pedido p
+ on c.fk_pedido_id = p.id
+ inner join nota n
+ on n.id = p.fk_nota_id
+
+--2)
+
+select * from solicitacao soli 
+ inner join cotacao c 
+ on soli.id = c.fk_solicitacao_id
+ and soli.valor > 245
+ inner join pedido p
+ on c.fk_pedido_id = p.id
+ and p.qtde < 4587
+ and p.qtde > 16
+ and p.valortotal != 1500
+ inner join nota n
+ on n.id = p.fk_nota_id
+
+--3)
+
+select p.id, p.valortotal,c.id, c.qtde * c.valorunit as 'multiplicacao' from solicitacao soli 
+ inner join cotacao c 
+ on soli.id = c.fk_solicitacao_id
+ inner join pedido p
+ on c.fk_pedido_id = p.id
+ inner join nota n
+ on n.id = p.fk_nota_id
+
+ --4)
+
+ select c.* from solicitacao soli 
+ inner join cotacao c 
+ on soli.id = c.fk_solicitacao_id
+ inner join pedido p
+ on c.fk_pedido_id = p.id
+ inner join nota n
+ on n.id = p.fk_nota_id
+ where MONTH(soli.dataemissao) in (4,5,7,8)
+ and YEAR(soli.dataemissao) in (2018)
+
+--------------------------------------
+
+ALTER TABLE nota ADD estado varchar(50), cidade varchar(50), dataEmissao date;  
+--------------------------------------
+
+
+
+--------------------------------------
+ select day(soli.dataemissao) as 'Dia',
+ month(soli.dataemissao) as 'Mês',
+ year(soli.dataemissao) as 'Ano',
+ len(soli.nomeproduto) as 'Tamanho',
+ n.qtde * n.valorunit as 'Total da Nota',
+ * from solicitacao soli 
+ inner join cotacao c 
+ on soli.id = c.fk_solicitacao_id
+ inner join pedido p
+ on c.fk_pedido_id = p.id
+ inner join nota n
+ on n.id = p.fk_nota_id
+ where soli.id > 1
+ and LEN(soli.nomeproduto) >= 3
+
